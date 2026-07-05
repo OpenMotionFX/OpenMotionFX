@@ -1,4 +1,4 @@
-# OpenMoCo
+# OpenMotionFX
 
 **Open-source, cinema-grade, modular motion control for smartphone filmmaking and VFX.**
 
