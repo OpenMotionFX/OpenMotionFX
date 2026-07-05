@@ -8,6 +8,8 @@ Phased so that **every phase ends with something a filmmaker can actually shoot 
 
 **Goal:** de-risk every assumption before designing around it. No modules, no app UI.
 
+> Phase 0 is now fully specified as the **Node V0 prototype** — exact BOM, pin map, test firmware suite (T0–T11), and pass criteria live in **docs/05-NODE-V0-PROTOTYPE.md**. The checklist below is superseded by that doc's test matrix.
+
 - [ ] Write the **OMP protocol spec v0** and **`.omfx` format spec v0** (drafts from docs 01/03).
 - [ ] Bench rig: 3–6 bare ESP32-S3 boards.
   - [ ] ESP-NOW TSF sync accuracy across nodes, clean RF vs. congested (target <100 µs; logic analyzer on GPIO toggles).
@@ -16,6 +18,7 @@ Phased so that **every phase ends with something a filmmaker can actually shoot 
   - [ ] USB-PD trigger brownout under NEMA17 inrush → capacitance/inrush spec.
 - [ ] Print + cycle-test one cycloidal reducer (10k cycles, measure backlash growth).
 - [ ] AS5600 watchdog proof: detect a deliberately induced stall/slip.
+- [ ] **OpenCamera sync-flash validation** (doc 05 T11): Node fires the sync flash while [OpenCamera](https://github.com/openlumenorg/OpenCamera) records; verify ±1-frame alignment across takes.
 - **Exit criteria:** measured numbers replacing every "should work" in the specs. Any failure here changes the architecture cheaply, on the bench.
 
 ## Phase 1 — Flagship MVP: Pan/Tilt Head + Conductor core *(~2–3 months of weekends)*
@@ -28,7 +31,7 @@ Phased so that **every phase ends with something a filmmaker can actually shoot 
 - [ ] Conductor v0 (Tauri): device discovery, jog, keyframe timeline + graph editor, compile/upload/ARM/GO, take review (planned vs. performed), **simulation mode with virtual nodes**.
 - [ ] `.omfx` writer + **Blender import add-on v0** (camera + baked animation).
 - [ ] Sync flash via a bare LED on a GPIO (Sync Box proper comes later).
-- [ ] **Validation shoot:** phone on head, 3-pass twinning composite. Publish-quality repeatability proof for later launch material.
+- [ ] **Validation shoot:** phone on head running **OpenCamera** (locked exposure/frame duration = clean pass matching), 3-pass twinning composite. Publish-quality repeatability proof for later launch material.
 - **Exit criteria:** two consecutive passes composite sub-pixel at 1080p; Blender camera matches the plate.
 
 ## Phase 2 — Multi-axis: Slider + Turntable + kinematic chains *(~2 months)*
@@ -51,14 +54,17 @@ Phased so that **every phase ends with something a filmmaker can actually shoot 
 - [ ] Showcase shoot: repeatable lightning FX across a 2-pass composite, lighting recreated in UE.
 - **Exit criteria:** a take imports into UE with camera *and* animated lights matching the plate.
 
-## Phase 4 — Reach: Dolly + focus motor + companion app *(~2–3 months)*
+## Phase 4 — Reach: Dolly + focus motor + deep OpenCamera integration *(~2–3 months)*
+
+> The companion capture app does not need to be built — **[OpenCamera](https://github.com/openlumenorg/OpenCamera)** (same org) already exists: Android RAW cinema app with Camera2/NDK pipeline, log recording, keyframe automation (focus/exposure/zoom ramps), high-rate IMU capture (`core-motion`), and a browser-based laptop remote (`core-remote`). An OpenMotionFX-friendly update is already in progress there. Phase 4's app work is *integration*, not creation.
 
 - [ ] Dolly + flat-pack track (straight); curved segments if straight validates.
 - [ ] Focus/zoom motor module; focus as a first-class axis in `.omfx`.
-- [ ] Phone companion capture app v0 (network-triggered record, per-frame lens metadata, ARKit/ARCore pose as fallback track).
-- [ ] Phone intrinsics profile library + nodal-offset jig procedure.
+- [ ] **OpenCamera ↔ OMP integration:** network-triggered record from the Conductor/Sync Box; per-frame timestamps + lens metadata (focal length, focus distance, ISO, shutter from Camera2) written into `camera.json`; IMU stream stored as auxiliary track.
+- [ ] **Timeline unification decision:** OpenCamera keeps its in-camera ramps (focus/exposure/zoom); motion lives in the Conductor — both fire off the same OMP T₀ so a focus ramp keyed in OpenCamera lands sample-locked with the rig move. (Revisit merging editors only if this two-timeline UX proves confusing.)
+- [ ] Phone intrinsics profile library + nodal-offset jig procedure (OpenCamera's reference devices seed the profile database).
 - [ ] USD export path hardened (golden-file round-trip tests in CI).
-- **Exit criteria:** dolly+slider+head chain executes a Blender-designed 3-axis move; companion app metadata lands in `camera.json` automatically.
+- **Exit criteria:** dolly+slider+head chain executes a Blender-designed 3-axis move; OpenCamera metadata lands in `camera.json` automatically.
 
 ## Phase 5 — Ecosystem: public launch *(when, and only when, Phases 1–3 are solid)*
 
@@ -80,7 +86,7 @@ Phased so that **every phase ends with something a filmmaker can actually shoot 
 | Printed cycloidal wear degrades repeatability | Phase 0 cycle test; fallback is cheap metal planetary + anti-backlash spring pattern. |
 | MGN12 rail cost creep (largest single BOM item) | Dual-spec slider (rail vs. V-wheel) with measured, published difference. |
 | Blender/USD animated-intrinsics bugs get fixed upstream | Great if so — `.omfx`-native path means we don't depend on it. Re-check each Blender LTS. |
-| Phone camera APIs shift (lens metadata access) | Sync-flash workflow works with *any* camera app forever; companion app is enhancement, not foundation. |
+| Phone camera APIs shift (lens metadata access) | Sync-flash workflow works with *any* camera app forever; and owning the capture stack via OpenCamera (Camera2/NDK, same org) means metadata access is under project control, not a third party's. |
 | Scope creep toward virtual production | Explicit non-goal fence in doc 04 §6; LiveLink hooks exist but real-time comp is post-v1. |
 | Solo-maintainer burnout (the pattern that killed every prior DIY moco project) | Every phase ships a usable tool for *you*; simulation-first dev lowers contributor barriers; protocol/format specs are CC0 so the ecosystem can outlive any repo. |
 
