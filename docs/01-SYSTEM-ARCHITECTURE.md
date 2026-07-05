@@ -27,7 +27,7 @@
 
 ## 2. The two-plane network
 
-**Control plane (Wi-Fi, TCP/WebSocket):** discovery, configuration, trajectory upload, jog commands, telemetry, firmware update. Latency-tolerant. The Conductor runs an mDNS browser; Nodes advertise `_openmoco._tcp`. Works on any existing Wi-Fi network or on a SoftAP hosted by the Sync Box when there's no infrastructure (shooting outdoors).
+**Control plane (Wi-Fi, TCP/WebSocket):** discovery, configuration, trajectory upload, jog commands, telemetry, firmware update. Latency-tolerant. The Conductor runs an mDNS browser; Nodes advertise `_OpenMotionFX._tcp`. Works on any existing Wi-Fi network or on a SoftAP hosted by the Sync Box when there's no infrastructure (shooting outdoors).
 
 **Sync plane (ESP-NOW broadcast):** connectionless 802.11 action frames, no AP association needed, immune to DHCP/router weirdness.
 
@@ -69,9 +69,9 @@ Phones cannot genlock — no public API exposes shutter-level hardware sync. The
 
 Real cameras with trigger/LANC/timecode inputs get first-class support via the Sync Box's opto-isolated outputs — this future-proofs the system beyond phones for free.
 
-## 6. The Move File (`.omcf`) — canonical interchange format
+## 6. The Move File (`.omfx`) — canonical interchange format
 
-Research verdict: **no existing format survives the full round trip.** FBX drops focus distance; Alembic and USD both have documented bugs collapsing animated focal length; rotation-order and up-axis mismatches are endemic. So OpenMoCo defines its own canonical format and *additionally* exports FBX/USD (the Lightcraft Jetset pattern — own format as truth, standard formats as views).
+Research verdict: **no existing format survives the full round trip.** FBX drops focus distance; Alembic and USD both have documented bugs collapsing animated focal length; rotation-order and up-axis mismatches are endemic. So OpenMotionFX defines its own canonical format and *additionally* exports FBX/USD (the Lightcraft Jetset pattern — own format as truth, standard formats as views).
 
 **Container:** a zip with JSON manifest + binary column data (or pure JSON for small files). Human-diffable where possible.
 
@@ -97,7 +97,7 @@ events.json        T₀, sync flash times, shoot-move-shoot trigger times,
                    DMX cues, user markers
 ```
 
-The format spec will be released **CC0** with a validator tool, so anything — including non-OpenMoCo hardware — can produce or consume it.
+The format spec will be released **CC0** with a validator tool, so anything — including non-OpenMotionFX hardware — can produce or consume it.
 
 ## 7. Kinematic chains (modularity made real)
 
@@ -109,13 +109,13 @@ Mounting a pan/tilt head on a slider on a dolly forms a chain. Each module's spe
 
 Chain descriptors are data, not code — a community member's new module is a JSON file plus the standard mounts, and it composes with everything.
 
-## 8. Protocol summary (OpenMoCo Protocol, "OMP")
+## 8. Protocol summary (OpenMotionFX Protocol, "OMP")
 
 | Layer | Transport | Content |
 |---|---|---|
 | Discovery | mDNS / ESP-NOW probe | node id, type, fw version, axes, capabilities |
 | Control | TCP/WebSocket (CBOR or protobuf frames) | config, jog, upload, telemetry, OTA |
 | Sync | ESP-NOW broadcast (+ CAN mirror) | time beacons, ARM/GO/ABORT, heartbeat |
-| Lighting interop | sACN (E1.31) + Art-Net listener on light Nodes | industry-standard DMX universes, so UE's DMX plugin and any lighting desk can drive OpenMoCo lights directly |
+| Lighting interop | sACN (E1.31) + Art-Net listener on light Nodes | industry-standard DMX universes, so UE's DMX plugin and any lighting desk can drive OpenMotionFX lights directly |
 
 ABORT is broadcast on both planes, is latched by hardware (motor enable line), and every Node also dead-man's-switches on beacon loss > 2 s during playback.

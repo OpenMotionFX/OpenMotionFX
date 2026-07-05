@@ -17,7 +17,7 @@ All modules share one electronics platform and one set of mechanical/electrical 
 | UI on module | 1 button (function/home), 1 RGB status LED, power switch | State must be readable from across the room: idle / loaded / armed / playing / deviated / fault colors. |
 | PCB | One shared **Node board** design: S3 + power + CAN + 2× TMC2209 sockets + 2× SimpleFOC-style BLDC driver footprints + endstop/I2C headers | One board serves every module type; modules differ only in which sockets are populated. JLCPCB-assembled ≈ $12–18/board in small qty; hand-solderable through-hole/castellated variant for pure DIY builders. |
 
-## 2. Mechanical & electrical standards (the "modular" in OpenMoCo)
+## 2. Mechanical & electrical standards (the "modular" in OpenMotionFX)
 
 - **Structure:** 2020 V-slot aluminum extrusion + 3D-printed brackets (PETG default; ASA outdoors).
 - **Mount standard ("OM-Mount"):** every module's top and bottom interface is the same printed quick-release dovetail plate with a known CAD transform, carrying a 3/8"-16 center thread (tripod compatible) + anti-rotation pins. Any module stacks on any module or any tripod; the known transform is what makes kinematic-chain solving (doc 01 §7) possible.
@@ -66,7 +66,7 @@ Two fixtures, one electronics stack (ESP32-C6, sACN/Art-Net native, plus full OM
 - **BOM ≈ $25–35.**
 
 ### 3.8 Handheld gimbal — *deliberately deferred*
-DJI Osmo Mobile owns handheld stabilization at $80–150 and repeatability is meaningless handheld. OpenMoCo's pan/tilt head already *is* a stabilized remote head when stacked on moving modules. Revisit only if the community demands it; it's the hardest module with the least VFX value.
+DJI Osmo Mobile owns handheld stabilization at $80–150 and repeatability is meaningless handheld. OpenMotionFX's pan/tilt head already *is* a stabilized remote head when stacked on moving modules. Revisit only if the community demands it; it's the hardest module with the least VFX value.
 
 ## 4. Suite cost summary
 

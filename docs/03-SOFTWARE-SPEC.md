@@ -1,6 +1,6 @@
 # 03 — Software Spec
 
-Three codebases: **Node firmware** (ESP32), the **Conductor** (desktop app), and **DCC plugins** (Blender add-on, Unreal plugin). All communicate through the OpenMoCo Protocol (OMP) and the `.omcf` move file (doc 01 §6/§8).
+Three codebases: **Node firmware** (ESP32), the **Conductor** (desktop app), and **DCC plugins** (Blender add-on, Unreal plugin). All communicate through the OpenMotionFX Protocol (OMP) and the `.omfx` move file (doc 01 §6/§8).
 
 ## 1. Node firmware
 
@@ -16,7 +16,7 @@ Three codebases: **Node firmware** (ESP32), the **Conductor** (desktop app), and
   - Trajectory format: piecewise quintic/cubic segments per axis (compact, C²-smooth — no per-step streaming, no big point tables).
 - **Safety:** hardware motor-enable latch on ABORT; beacon-loss dead-man (doc 01 §8); soft limits from config; thermal readback from TMC drivers.
 - **OTA updates** from the Conductor, signed manifests, A/B partitions (a bricked module mid-shoot is unacceptable).
-- **Node config** is one JSON document (axis geometry, limits, kinematic descriptor, calibration) — versioned, exported into every `.omcf` so takes are reproducible even after re-tuning.
+- **Node config** is one JSON document (axis geometry, limits, kinematic descriptor, calibration) — versioned, exported into every `.omfx` so takes are reproducible even after re-tuning.
 
 ## 2. Conductor (desktop app)
 
@@ -40,23 +40,23 @@ Three codebases: **Node firmware** (ESP32), the **Conductor** (desktop app), and
 
 ## 3. Blender add-on
 
-- **Import `.omcf`:** camera with baked per-frame transforms + animated focal length/focus distance (set directly on Blender camera data — sidestepping the documented FBX/Alembic/USD animated-intrinsics bugs), lights as area/spot objects with animated power/color from calibrated photometric data, rig geometry as empties (optionally proxy meshes).
+- **Import `.omfx`:** camera with baked per-frame transforms + animated focal length/focus distance (set directly on Blender camera data — sidestepping the documented FBX/Alembic/USD animated-intrinsics bugs), lights as area/spot objects with animated power/color from calibrated photometric data, rig geometry as empties (optionally proxy meshes).
 - **Export to rig:** select a camera animation → add-on samples it, hands it to the Conductor (local WebSocket) → kinematic solve onto the connected rig → reachability report shown *in Blender*. Design the move in Blender; the hardware performs it.
 - **Live link (later):** scrub Blender's timeline and the rig jogs to match (slow-speed follow) for on-set previz.
 - Python, standard `bpy`; talks only to the Conductor, never to Nodes.
 
 ## 4. Unreal Engine plugin
 
-- **Import:** `.omcf` → Level Sequence with CineCameraActor (focal length/focus mapped to CineCamera's filmback + focus settings) + Rect/Spot lights.
-- **Native path first:** a direct `.omcf` importer avoids UE's known FBX camera focus-distance gap; FBX/USD remain the no-plugin fallback.
-- **DMX interop:** UE's built-in DMX plugin speaks sACN/Art-Net → drives OpenMoCo lights *live* with zero custom code; the Conductor records those cues into takes.
+- **Import:** `.omfx` → Level Sequence with CineCameraActor (focal length/focus mapped to CineCamera's filmback + focus settings) + Rect/Spot lights.
+- **Native path first:** a direct `.omfx` importer avoids UE's known FBX camera focus-distance gap; FBX/USD remain the no-plugin fallback.
+- **DMX interop:** UE's built-in DMX plugin speaks sACN/Art-Net → drives OpenMotionFX lights *live* with zero custom code; the Conductor records those cues into takes.
 - **Live link (later):** OMP telemetry → LiveLink source, physical rig drives the UE camera in real time (indie virtual-production previz).
 
 ## 5. Export matrix (what ships in every take folder)
 
 | Output | Contents | Consumer |
 |---|---|---|
-| `.omcf` | everything (truth) | Conductor, plugins, validators |
+| `.omfx` | everything (truth) | Conductor, plugins, validators |
 | `.fbx` | camera transform + focal length keys | any DCC, editors, AE |
 | `.usd` | camera + lights, Y-up converted | UE, Houdini, future-proof |
 | `.py` | Blender setup script (Jetset/CamTrackAR pattern) | plugin-less Blender users |
@@ -65,5 +65,5 @@ Three codebases: **Node firmware** (ESP32), the **Conductor** (desktop app), and
 ## 6. Repos & tooling (when code starts)
 
 - Monorepo initially: `firmware/`, `conductor/`, `plugins/blender/`, `plugins/unreal/`, `omcf/` (spec + validator + fixture files), `hardware/`.
-- CI: firmware builds per module target; Rust/TS tests; **`.omcf` golden-file round-trip tests** (Blender headless + UE commandlet import/export must stay lossless — this is the pipeline's regression armor).
+- CI: firmware builds per module target; Rust/TS tests; **`.omfx` golden-file round-trip tests** (Blender headless + UE commandlet import/export must stay lossless — this is the pipeline's regression armor).
 - Simulation-first development: virtual nodes in CI mean contributors need zero hardware to work on 90% of the stack.

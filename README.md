@@ -16,7 +16,7 @@ Repeatable camera motion — the ability to run the exact same move twice — is
 | Prosumer | Edelkrone, Kessler | $1,000–3,500+ | Partially, app-gated |
 | Professional | Mark Roberts Bolt | $68,000–275,000 | Yes |
 
-**There is nothing in between, and nothing at all built smartphone-first.** OpenMoCo targets a full multi-axis, VFX-repeatable, wirelessly synchronized motion + lighting suite for **under ~$400 in parts**, built from 3D-printer-ecosystem components anyone can order.
+**There is nothing in between, and nothing at all built smartphone-first.** OpenMotionFX targets a full multi-axis, VFX-repeatable, wirelessly synchronized motion + lighting suite for **under ~$400 in parts**, built from 3D-printer-ecosystem components anyone can order.
 
 ## Why open source, and why now
 
@@ -27,7 +27,7 @@ Market research (2026) shows the commercial field failing in exactly the ways op
 - **Companies die and strand owners** — Rhino Camera Gear shut down in January 2025; its hardware has no support path.
 - **The open-source moco space is a graveyard**: Dynamic Perception's OpenMoCo/nanoMoCo is semi-abandoned; everything since is single-author, single-purpose repos with no shared protocol.
 
-OpenMoCo is **local-first** (no cloud, no accounts, works forever), **protocol-first** (any hardware speaking the protocol joins the ecosystem), and **VFX-first** (every design decision serves repeatability and 3D-software round-tripping).
+OpenMotionFX is **local-first** (no cloud, no accounts, works forever), **protocol-first** (any hardware speaking the protocol joins the ecosystem), and **VFX-first** (every design decision serves repeatability and 3D-software round-tripping).
 
 ## What the system is
 
@@ -71,7 +71,6 @@ conductor/                    ← (future) desktop controller app
 plugins/                      ← (future) Blender add-on, UE plugin
 hardware/                     ← (future) CAD, STLs, PCB, wiring
 ```
-
 
 ## License intent (decide before first publish)
 
