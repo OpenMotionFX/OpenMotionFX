@@ -72,9 +72,6 @@ plugins/                      ← (future) Blender add-on, UE plugin
 hardware/                     ← (future) CAD, STLs, PCB, wiring
 ```
 
-## Naming note
-
-"OpenMoCo" was the name of Dynamic Perception's (now dormant) project from the early 2010s. Before any public release, either confirm the name is free to reuse (their trademark almost certainly lapsed, but check) or pick a fresh name. Candidates worth considering later: *Repeat*, *TakeTwo*, *MoCoKit*, *Encore*.
 
 ## License intent (decide before first publish)
 
