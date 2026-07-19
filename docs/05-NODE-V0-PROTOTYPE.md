@@ -1,12 +1,12 @@
-# 05 — Node V0 Prototype Validation Matrix
+# 05 — Node V0 Functional Prototyping Test Suite
 
-This prototype matrix explicitly isolates and tests the custom hardware additions introduced by the System-on-Module (SoM) tracking architecture.
+This test validation grid contains explicit evaluations targeting the ad-hoc tracking engine and high-resolution RF physics algorithms.
 
-| Test ID | Evaluation Target | Method Mechanics | Operational Pass Threshold |
+| Test ID | Evaluation Target | Testing Protocols & Implementation Mechanics | Acceptance Pass Boundaries |
 |---|---|---|---|
-| **T-SOM-01** | **Carrier Profile Identification** | Connect fixed resistor networks matching target profiles to the analog ID pin; cycle hardware power 50 times. | System successfully registers 100% profile mapping verification with zero false identification triggers. |
-| **T-SOM-02** | **UWB Mesh Construction** | Place 4 prototype tracking modules in an unmeasured, non-standard layout. | MDS execution cycle maps spatial arrangements within 5 seconds with zero manually typed entries. |
-| **T-SOM-03** | **Multipath CIR Filtering** | Drive radio transmissions across dense configurations of aluminum and steel infrastructure components. | Microcontroller reliably filters secondary bounce reflections by extracting the leading edge of the CIR graph. |
-| **T-SOM-04** | **Clock-Drift Mitigation** | Launch high-frequency continuous ranging iterations between independent microcontrollers over a 1-hour soak window. | DS-TWR execution bounds distance measurement jitter under sub-centimeter targets. |
-| **T-SOM-05** | **High-Rate Data Fusion** | Apply rapid acceleration impulses along a physical path; match fused tracking against independent laser metrics. | The ESKF effectively smooths positional output streams to a continuous 400Hz frame output frequency. |
-| **T-SOM-06** | **Lighting Hat band mitigation** | Drive continuous illumination loops while evaluating output fields through high-shutter-speed camera viewfinders. | Constant-current output waveforms ensure zero artifact lines or lighting frequency bands across video captures. |
+| **T-SOM-01** | **Dynamic Hat Detection** | Connect variable load resistance circuits matching profile boundaries; cycle main hardware power 50 times. | Hardware maps profile state execution with 100% accuracy; zero software profiling lockouts. |
+| **T-SOM-02** | **Ad-Hoc MDS Generation** | Deploy 4 prototype modules across an unmeasured room with irregular vertical elevations. | MDS loop processes coordinate matrices inside 5 seconds with zero manually typed entries. |
+| **T-SOM-03** | **PDoA Angular Tracking** | Mount the tracking module to a precision optical rotation turntable; sweep relative arrival angles over a $\pm 45^\circ$ arc. | Spatial calculations maintain an internal Angular of Arrival resolution error boundary under $\le 1.5^\circ$. |
+| **T-SOM-04** | **CIR Multipath Bypassing** | Surround the tracking line-of-sight path with heavy structural metal plates and C-stands. | Register validation routines successfully capture the first rising edge; secondary high-amplitude wall reflections are ignored. |
+| **T-SOM-05** | **DS-TWR Jitter Dampening** | Execute continuous range sweeps between static transceivers over a 1-hour tracking block. | Millisecond handshake matrix eliminates microcontroller clock drift; total distance jitter checks out under $\le 8\text{ mm}$ variance. |
+| **T-SOM-06** | **Tightly Coupled ESKF** | Sweep the tracking module rapidly through space; measure real-time positional data streams against a $240\text{ fps}$ visual capture axis. | Data streams output at a continuous, low-latency $400\text{ Hz}$ tracking frame rate with smooth, artifact-free vectors. |
