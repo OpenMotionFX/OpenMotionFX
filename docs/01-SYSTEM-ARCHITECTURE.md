@@ -3,18 +3,20 @@
 ## 1. Topographical Split (Brain vs. Brawn)
 OpenMotionFX separates processing complexity from power delivery via a System-on-Module pattern[cite: 1].
 ```
-┌────────────────────────────────────────────────────────┐
-│             CORE TRACKING MODULE (The Brain)           │
+┌────────────────────────────────────────────────────────────┐
+│             CORE TRACKING MODULE (The Brain)               │
 │  ESP32-S3  │  DWM3000 UWB  │  BNO085 IMU  │  TP4056 Charge │
-└──────────────────────────┬─────────────────────────────┘
-│ High-Density Mezzanine Interconnect
-▼
-┌────────────────────────────────────────────────────────┐
-│             CARRIER HATS (The Brawn)                   │
+└──────────────────────────┬─────────────────────────────────┘
+                           │
+                           │- High-Density Mezzanine Interconnect
+                           │
+                           ▼
+┌────────────────────────────────────────────────────────────┐
+│             CARRIER HATS (The Brawn)                       │
 │   [Lighting Hat Profile]      OR     [Motion Hat Profile]  │
 │   Constant-Current Drivers           Trinamic TMC Drivers  │
 │   MOSFET Arrays                      AS5600 Encoders       │
-└────────────────────────────────────────────────────────┘
+└────────────────────────────────────────────────────────────┘
 ```
 
 ## 2. Hardware Auto-Detection Architecture
