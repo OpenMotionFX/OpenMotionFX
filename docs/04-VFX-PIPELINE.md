@@ -2,7 +2,7 @@
 
 ## 1. Spatial Digital Twin Execution Loop
 OpenMotionFX maintains a bidirectional hardware-in-the-loop tracking ecosystem between the physical stage and the digital design asset.
-
+```
 ┌────────────────────────┐                    ┌────────────────────────┐
 │     PHYSICAL SET       │                    │     VIRTUAL ENGINE     │
 │  Actor Tracking Tag    ├──(Real-Time OSC)──►│  Real Camera Viewport  │
@@ -10,7 +10,7 @@ OpenMotionFX maintains a bidirectional hardware-in-the-loop tracking ecosystem b
 │                        │                    │                        │
 │ Analog RGBWW Output    │◄──(sACN/Art-Net)───┤  Virtual Lighting FX   │
 └────────────────────────┘                    └────────────────────────┘
-
+```
 
 1. The physical hardware array calculates its real-world positions using the UWB tracking framework.
 2. Positional transforms cross the network layer, instantiating synchronized virtual lighting components inside Blender or Unreal Engine Level Sequences.
