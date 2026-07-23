@@ -8,14 +8,17 @@ compiled per unit. See spec §13 and `AGENTS.md` §2 for the fixed task set (`bu
 ## Target
 
 - MCU: ESP32-S3 (spec §18.1 — DevKit N8P16 for Bring-Up)
-- Framework: ESP-IDF v5.x on FreeRTOS. Avoid Arduino shims in bus timing, motor timing, or
-  ISR-adjacent code.
+- Framework: **ESP-IDF v5.5.4** (current v5.x LTS, supported into 2027) on FreeRTOS. Avoid Arduino
+  shims in bus timing, motor timing, or ISR-adjacent code. Don't jump to the v6.x line yet —
+  PlatformIO and most third-party ESP32-S3/TWAI example code still target v5.x, and this project
+  leans hard on the TWAI (CAN) peripheral where undocumented v6.0 breakage would be costly to
+  chase.
 - CAN transceiver: SN65HVD230 via the TWAI peripheral (classic CAN 2.0B, 1 Mbps, spec §7).
 
 ## Setup (not yet scaffolded)
 
 ```sh
-# Install ESP-IDF v5.x: https://docs.espressif.com/projects/esp-idf/en/stable/esp32s3/get-started/
+# Install ESP-IDF v5.5.4: https://docs.espressif.com/projects/esp-idf/en/v5.5.4/esp32s3/get-started/
 idf.py set-target esp32s3
 idf.py build
 idf.py -p <PORT> flash monitor

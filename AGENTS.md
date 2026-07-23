@@ -59,7 +59,7 @@ Every requirement below cites its spec section — check the section before assu
 
 | Path | Role | Stack |
 |---|---|---|
-| `firmware/core_unit/` | `OMFX-CU` firmware — bus, control loop, sensors, fault, descriptor tasks (§13) | C/C++, ESP-IDF (v5.x) on FreeRTOS, ESP32-S3. Avoid Arduino shims in bus timing, motor timing, or ISR-adjacent code paths. |
+| `firmware/core_unit/` | `OMFX-CU` firmware — bus, control loop, sensors, fault, descriptor tasks (§13) | C/C++, **ESP-IDF v5.5.4** (current v5.x LTS — don't move to v6.x without a deliberate decision, see `firmware/README.md`) on FreeRTOS, ESP32-S3. Avoid Arduino shims in bus timing, motor timing, or ISR-adjacent code paths. |
 | `host/` | Conductor Desktop / Hub host process — NCD registry, L2 solvers, `.omfx` I/O, DCC bridge (§14) | Tauri (Rust core + React/TypeScript UI). Rust owns bus/serial parsing and kinematic math (`nalgebra`-class); UI owns 3D viewport + curve editor. |
 | `schemas/` | NCD JSON Schema (§11) and any other wire-format schemas | JSON Schema, versioned alongside `ncd_version`. |
 | `hardware/` | PCB (Core Unit, Function Units, Hub), mechanical/FDM housings (§17) | KiCad for PCB; STEP/STL for mechanical. |
