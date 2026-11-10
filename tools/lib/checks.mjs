@@ -251,12 +251,24 @@ function history(ctx) {
     if (terms) terms.forEach((re, t) => { if (re.test(f)) out.push(`deferred: historic file name matches deferred term #${t + 1}`); });
   }
   // Every blob ever committed, so a removed line cannot hide in history.
-  const objs = (git(['rev-list', '--all', '--objects']).stdout || '').split('\n').filter((l) => l.includes(' '));
-  for (const line of objs) {
-    const [sha, ...rest] = line.split(' '); const path = rest.join(' ');
-    if (!path || isBinaryPath(path)) continue;
-    if (git(['cat-file', '-t', sha]).stdout.trim() !== 'blob') continue;
-    out.push(...scanText(`history ${path}@${sha.slice(0, 8)}`, git(['cat-file', '-p', sha]).stdout || '', { deferred: terms }));
+  // One `git cat-file --batch` process reads them all; a process per object is too slow on Windows.
+  const paths = new Map();
+  for (const line of (git(['rev-list', '--all', '--objects']).stdout || '').split('\n')) {
+    const i = line.indexOf(' ');
+    if (i > 0 && !isBinaryPath(line.slice(i + 1))) paths.set(line.slice(0, i), line.slice(i + 1));
+  }
+  const batch = spawnSync('git', ['cat-file', '--batch'], { cwd: ctx.root, input: [...paths.keys()].join('\n') + '\n', maxBuffer: 512 * 1024 * 1024 });
+  const buf = batch.stdout || Buffer.alloc(0);
+  for (let pos = 0; pos < buf.length;) {
+    const nl = buf.indexOf(10, pos);
+    if (nl < 0) break;
+    const [sha, type, size] = buf.subarray(pos, nl).toString().split(' ');
+    if (type === 'missing' || size === undefined) { pos = nl + 1; continue; }
+    const end = nl + 1 + Number(size);
+    if (type === 'blob' && Number(size) < 2 * 1024 * 1024) {
+      out.push(...scanText(`history ${paths.get(sha)}@${sha.slice(0, 8)}`, buf.subarray(nl + 1, end).toString('utf8'), { deferred: terms }));
+    }
+    pos = end + 1;
   }
   return [...new Set(out)];
 }

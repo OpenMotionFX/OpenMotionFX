@@ -52,7 +52,7 @@ export async function mutationProof(sourceRoot) {
     }
     // history: a secret that was committed and then deleted must still be found.
     const hist = makeCopy('history');
-    const git = (args) => spawnSync('git', ['-c', 'user.name=selftest', '-c', 'user.email=selftest@example.invalid', '-c', 'commit.gpgsign=false', ...args], { cwd: hist, encoding: 'utf8' });
+    const git = (args) => spawnSync('git', ['-c', 'user.name=selftest', '-c', 'user.email=selftest@example.invalid', '-c', 'commit.gpgsign=false', '-c', 'init.defaultBranch=main', ...args], { cwd: hist, encoding: 'utf8' });
     git(['init', '-q']); git(['add', '-A']); git(['commit', '-q', '-m', 'chore: base']);
     if ((await failing(hist, ['history'])).length) failures.push('history: a clean temp repository should pass');
     put(hist, 'docs/leak.txt', `token ${fakeToken()}\n`); git(['add', '-A']); git(['commit', '-q', '-m', 'chore: add file']);
