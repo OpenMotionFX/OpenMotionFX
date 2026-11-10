@@ -1,0 +1,42 @@
+{
+  "note": "Frozen plan documents. tools/check.mjs fails if a file's sha256 or first heading differs from this list.",
+  "frozen_on": "2026-11-10",
+  "files": [
+    {
+      "key": "stack",
+      "path": "docs/source/modular-capture-stack.md",
+      "first_heading": "Modular Capture Stack: Real Plan",
+      "original_name": "Ideals.md",
+      "redactions": 0,
+      "sha256": "b632f9245cb1d0838d2e09e6d6ec5680418828c67df179239e030c4cdb3eafa1"
+    },
+    {
+      "key": "solo",
+      "path": "docs/source/solo-build-plan.md",
+      "first_heading": "Solo build plan",
+      "original_name": "Solo build plan.md",
+      "redactions": 19,
+      "sha256": "6f825fcafe69fe81c52ffa108d46cd8eb2331e306971ffbae5567162afef2500"
+    },
+    {
+      "key": "review",
+      "path": "docs/source/stakeholder-review.md",
+      "first_heading": "Stakeholder review",
+      "original_name": "Stakeholder review of Ideals.md",
+      "redactions": 0,
+      "sha256": "c0c815fc1682d7919b73bfa02667f71377388ef3e4f2edd20568326443527a46"
+    }
+  ],
+  "missing": [
+    {
+      "expected": "Ideal capture spec (called \"the ideal doc\" inside the other documents)",
+      "status": "not supplied; do not rebuild it from memory",
+      "human_queue": "H-003"
+    },
+    {
+      "expected": "Scenario tests (linked from the end of the modular stack plan)",
+      "status": "not supplied",
+      "human_queue": "H-003"
+    }
+  ]
+}

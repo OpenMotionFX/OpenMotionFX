@@ -1,0 +1,3 @@
+#!/bin/sh
+# Allows pushes only to the project remote and runs the full tools/check first.
+exec node tools/githook.mjs pre-push "$1" "$2"

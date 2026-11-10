@@ -1,0 +1,17 @@
+{
+  "name": "openmotionfx-tools",
+  "private": true,
+  "description": "Repository tooling for OpenMotionFX (checks, hooks). Not a product package.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "check": "node tools/check.mjs",
+    "check:fast": "node tools/check.mjs --fast",
+    "doctor": "node tools/doctor.mjs"
+  },
+  "devDependencies": {
+    "yaml": "2.9.1"
+  }
+}

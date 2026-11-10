@@ -1,0 +1,3 @@
+#!/bin/sh
+# Blocks local-only paths, scans staged files for secrets and deferred terms, runs tools/check --fast.
+exec node tools/githook.mjs pre-commit

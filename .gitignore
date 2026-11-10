@@ -1,0 +1,65 @@
+# Local-only material. Reason: private notes, deferred topics and logs must not reach git.
+private/
+reference/
+.logs/
+.claude/local/
+.claude/settings.local.json
+CLAUDE.local.md
+
+# Secrets
+.env
+.env.*
+*.pem
+*.key
+*.keystore
+*.jks
+secrets/
+
+# Node (repo tooling)
+node_modules/
+
+# Android / Gradle (apps/phone)
+.gradle/
+build/
+local.properties
+*.apk
+*.aab
+captures/
+.cxx/
+.externalNativeBuild/
+.idea/
+*.iml
+
+# ESP-IDF (firmware/)
+sdkconfig
+sdkconfig.old
+managed_components/
+dependencies.lock
+*.bin
+*.elf
+*.map
+
+# Python (apps/set, solve, pipeline)
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+*.egg-info/
+dist/
+
+# Large capture data. Reason: takes and renders are not source.
+takes/
+*.mp4
+*.mov
+*.dng
+*.exr
+*.ply
+
+# OS and editors
+.DS_Store
+Thumbs.db
+.vscode/
+*.swp

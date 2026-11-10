@@ -1,0 +1,94 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node tools/*)",
+      "PowerShell(node tools/*)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git show *)",
+      "Bash(git branch --list *)",
+      "Bash(git remote -v)",
+      "Bash(git ls-files *)",
+      "PowerShell(git status *)",
+      "PowerShell(git diff *)",
+      "PowerShell(git log *)",
+      "PowerShell(git show *)",
+      "PowerShell(git branch --list *)",
+      "PowerShell(git remote -v)",
+      "PowerShell(git ls-files *)",
+      "Bash(gh auth status)",
+      "Bash(gh repo view *)",
+      "Bash(gh issue list *)",
+      "Bash(gh issue view *)",
+      "Bash(gh pr list *)",
+      "Bash(gh pr view *)",
+      "Bash(gh run list *)",
+      "Bash(gh run view *)",
+      "Bash(gh label list *)",
+      "PowerShell(gh auth status)",
+      "PowerShell(gh repo view *)",
+      "PowerShell(gh issue list *)",
+      "PowerShell(gh issue view *)",
+      "PowerShell(gh pr list *)",
+      "PowerShell(gh pr view *)",
+      "PowerShell(gh run list *)",
+      "PowerShell(gh run view *)",
+      "PowerShell(gh label list *)"
+    ],
+    "deny": [
+      "Read(.env)",
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)",
+      "Read(**/*.keystore)",
+      "Read(**/*.jks)",
+      "Read(secrets/**)",
+      "Read(~/.ssh/**)",
+      "Read(~/.aws/**)",
+      "Read(~/.config/gh/**)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|PowerShell|Edit|Write|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": ["${CLAUDE_PROJECT_DIR}/.claude/hooks/guard.mjs"],
+            "onFailure": "block",
+            "timeout": 20
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": ["${CLAUDE_PROJECT_DIR}/.claude/hooks/session-start.mjs"],
+            "timeout": 20
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": ["${CLAUDE_PROJECT_DIR}/.claude/hooks/stop.mjs"],
+            "timeout": 150
+          }
+        ]
+      }
+    ]
+  }
+}

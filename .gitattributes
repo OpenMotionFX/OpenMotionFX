@@ -1,0 +1,7 @@
+# Text files use LF everywhere so checks give the same result on Windows and in CI.
+* text=auto eol=lf
+# Frozen sources are stored byte-for-byte. Reason: their sha256 must match docs/source/MANIFEST.json on every machine.
+docs/source/*.md -text
+*.png binary
+*.jpg binary
+*.pdf binary

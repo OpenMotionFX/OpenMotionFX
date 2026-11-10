@@ -1,0 +1,3 @@
+#!/bin/sh
+# Scans the commit message for secrets and deferred terms, checks the conventional-commit form.
+exec node tools/githook.mjs commit-msg "$1"
